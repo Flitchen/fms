@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  id                           Int    @id @default(autoincrement())
+  name                         String @unique @db.VarChar(150)
+  file_file_categoryTocategory file[] @relation("file_categoryTocategory")
+  role_role_categoryTocategory role[] @relation("role_categoryTocategory")
+}
+
+model file {
+  id                               Int      @id @default(autoincrement())
+  name                             String   @unique @db.VarChar(150)
+  description                      String?  @db.VarChar(150)
+  upload_date                      DateTime @default(now()) @db.DateTime(0)
+  path                             String   @db.VarChar(150)
+  uploader                         Int?
+  category                         Int
+  user                             user?    @relation(fields: [uploader], references: [id], map: "file_ibfk_1")
+  category_file_categoryTocategory category @relation("file_categoryTocategory", fields: [category], references: [id], onDelete: Cascade, map: "file_ibfk_2")
+
+  @@index([category], map: "category")
+  @@index([uploader], map: "uploader")
+}
+
+model project {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique @db.VarChar(100)
+  description String        @db.VarChar(100)
+  userproject userproject[]
+}
+
+model role {
+  id                               Int       @id @default(autoincrement())
+  name                             String    @unique @db.VarChar(100)
+  category                         Int?
+  category_role_categoryTocategory category? @relation("role_categoryTocategory", fields: [category], references: [id], map: "role_ibfk_1")
+  user_user_roleTorole             user[]    @relation("user_roleTorole")
+
+  @@index([category], map: "category")
+}
+
+model user {
+  id                   Int           @id @default(autoincrement())
+  first_name           String        @db.VarChar(150)
+  middle_name          String?       @db.VarChar(150)
+  last_name            String        @db.VarChar(150)
+  username             String        @unique @db.VarChar(100)
+  password             String        @db.VarChar(200)
+  phone_no             String        @db.VarChar(50)
+  address              String?       @db.VarChar(100)
+  role                 Int?
+  file                 file[]
+  role_user_roleTorole role?         @relation("user_roleTorole", fields: [role], references: [id], map: "user_ibfk_1")
+  userproject          userproject[]
+
+  @@index([role], map: "role")
+}
+
+model userproject {
+  userID    Int
+  projectID Int
+  user      user    @relation(fields: [userID], references: [id], onDelete: Cascade, map: "userproject_ibfk_1")
+  project   project @relation(fields: [projectID], references: [id], onDelete: Cascade, map: "userproject_ibfk_2")
+
+  @@id([userID, projectID])
+  @@index([projectID], map: "projectID")
+}

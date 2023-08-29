@@ -29,7 +29,7 @@ export default async function AdminTable({ params }) {
       <h1 className="text-center text-5xl capitalize">{params.role}</h1>
       <div className="container mx-auto py-10">
         <h2 className="text-xl capitalize font-semibold mb-4">
-          {/* {params.role} Table */}A list of {params.role}
+          A list of {params.role}
         </h2>
 
         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">

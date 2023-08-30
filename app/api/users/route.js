@@ -24,7 +24,7 @@ export async function POST(request) {
   try {
     if (!fname || !lname || !phone || !address || !role) {
       throw new Error(
-        "Some fields weren't filled!Please fill all the required fields "
+        "Some fields weren't filled! Please fill all the required fields "
       );
     }
 
@@ -47,7 +47,7 @@ export async function POST(request) {
       },
       // include: {},
     });
-    console.log(rolePresent);
+    // console.log(rolePresent);
     //Checking if the role is present
     if (rolePresent) {
       const roleId = await prisma.role.findUnique({

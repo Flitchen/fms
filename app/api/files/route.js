@@ -1,5 +1,8 @@
 import { prisma } from "@/config/db";
 import { NextResponse } from "next/server";
+import { existsSync } from "fs";
+import fs from "fs/promises";
+import path from "path";
 
 export async function GET(request) {
   try {
@@ -12,24 +15,20 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  let { name, desc, category, content, uploader } = await request.json();
-  console.log(name);
-  console.log(desc);
-  console.log(category);
-  console.log(content);
-  console.log(uploader);
+  const data = await request.formData()
+  const file = data.get('file')
+  const category =await data.get('category')
+  let uploaderId =await data.get('user')
+    const uploader= parseInt(uploaderId)
 
   try {
-    if (!name || !category || !content) {
-      throw new Error(
-        "Some fields weren't filled!Please fill all the required fields "
-      );
-    }
-    name = name.toLowerCase();
-    category = category.toLowerCase();
+    if(!file||!category){
+      throw new Error("Please fill all the fields")
+  }
+    
     const fileExists = await prisma.file.findUnique({
       where: {
-        name,
+        name:file.name
       },
     });
     if (fileExists) {
@@ -44,11 +43,20 @@ export async function POST(request) {
         id: true,
       },
     });
+    const destinationDirPath = path.join(process.cwd(), "public");
+
+    const fileArrayBuffer = await file.arrayBuffer();
+
+    if (!existsSync(destinationDirPath)) {
+      fs.mkdir(destinationDirPath, { recursive: true });
+    }
+    await fs.writeFile(
+      path.join(destinationDirPath, file.name),
+      Buffer.from(fileArrayBuffer)
+    );
     const newFile = await prisma.file.create({
       data: {
-        name,
-        description: desc,
-        content,
+        name:file.name,
         uploader,
         category: categoryId.id,
       },

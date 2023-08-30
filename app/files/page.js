@@ -1,7 +1,7 @@
 "use client";
 import AddBtn from "@/components/AddBtn";
 import {
-  faFile,
+  faFileLines,
   faFolderClosed,
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
@@ -46,12 +46,12 @@ export default async function Page() {
         )}
         <div className="mt-20 grid gap-5 hero">
           {files.map((file) => (
-            <a href={`${file.content}`}>
+            <a href={`${file.name}`} target="_blank">
               <div
                 key={file.id}
                 className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300"
               >
-                <FontAwesomeIcon icon={faFile} size="2x" />
+                <FontAwesomeIcon icon={faFileLines} size="2x" />
                 <span className="text-center capitalize">{file.name}</span>
               </div>
             </a>

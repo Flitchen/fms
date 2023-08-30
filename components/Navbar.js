@@ -33,7 +33,7 @@ export default function Navbar() {
                   signOut();
                 }
               }}
-              className="text-white rounded-xl px-5 py-2 bg-black hover:bg-orange-400"
+              className="text-white rounded px-5 py-2 bg-blue-500 hover:bg-orange-400"
             >
               Logout
             </button>

@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 export default async function Page() {
   const { data: session } = useSession();
   const { user } = session;
-  // console.log(user);
   const [roles, setRoles] = useState([]);
   useEffect(() => {
     async function getUsers() {
@@ -36,7 +35,7 @@ export default async function Page() {
               </Link>
             </div>
           ) : (
-            <div></div>
+            <div>Loading...</div>
           )}
           <div className="mt-20 grid gap-5 hero">
             {roles.map((role) => (

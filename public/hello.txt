@@ -1,0 +1,55 @@
+// page.tsx
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <form action="/api/file" method="post" encType="multipart/form-data">
+        <input type="file" name="file" required />
+        <button className="ring-2 px-3 py-2 bg-blue-800 text-white rounded-md">
+          upload
+        </button>
+      </form>
+    </main>
+  );
+}
+
+
+// route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { existsSync } from "fs";
+import fs from "fs/promises";
+import path from "path";
+
+export async function POST(req: NextRequest) {
+  const formData = await req.formData();
+  console.log(formData);
+
+  const f = formData.get("file");
+
+  if (!f) {
+    return NextResponse.json({}, { status: 400 });
+  }
+
+  const file = f as File;
+  console.log(`File name: ${file.name}`);
+  console.log(`Content-Length: ${file.size}`);
+
+  const destinationDirPath = path.join(process.cwd(), "public/upload");
+  console.log(destinationDirPath);
+
+  const fileArrayBuffer = await file.arrayBuffer();
+
+  if (!existsSync(destinationDirPath)) {
+    fs.mkdir(destinationDirPath, { recursive: true });
+  }
+  await fs.writeFile(
+    path.join(destinationDirPath, file.name),
+    Buffer.from(fileArrayBuffer)
+  );
+
+  return NextResponse.json({
+    fileName: file.name,
+    size: file.size,
+    lastModified: new Date(file.lastModified),
+  });
+}

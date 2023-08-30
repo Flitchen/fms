@@ -17,9 +17,7 @@ model category {
 model file {
   id                               Int      @id @default(autoincrement())
   name                             String   @unique @db.VarChar(150)
-  description                      String?  @db.VarChar(150)
   upload_date                      DateTime @default(now()) @db.DateTime(0)
-  path                             String   @db.VarChar(150)
   uploader                         Int?
   category                         Int
   user                             user?    @relation(fields: [uploader], references: [id], map: "file_ibfk_1")

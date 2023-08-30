@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -5,11 +6,13 @@ import {
   faRectangleList,
 } from "@fortawesome/free-regular-svg-icons";
 import { faLayerGroup, faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from "next-auth/react";
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function Sidebar() {
-  const { user } = await getServerSession(authOptions);
+export default function Sidebar() {
+  const { data: session } = useSession();
+  const { user } = session;
 
   return (
     <div className="bg-gray-800 h-screen text-white w-64 flex-shrink-0  hidden md:block">

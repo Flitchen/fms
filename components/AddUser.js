@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import React from "react";
+import { toast } from "react-hot-toast";
 
 export default function AddUser() {
   const router = useRouter();
@@ -27,10 +28,10 @@ export default function AddUser() {
     });
     // Checking if the response was okay.
     if (response.ok) {
-      alert("User wass added successfully");
+      toast.success("User wass added successfully");
       router.push("/users");
     } else {
-      alert("Failed to add user");
+      toast.error("Failed to add user");
     }
   };
 

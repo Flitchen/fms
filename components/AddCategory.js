@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const AddCategory = () => {
   const router = useRouter();
@@ -18,10 +19,10 @@ const AddCategory = () => {
     });
     // Checking if the response was okay.
     if (response.ok) {
-      alert("Category was added successfully");
+      toast.success("Category was added successfully");
       router.push("/categories");
     } else {
-      alert("Failed to add category");
+      toast.error("Failed to add category");
     }
   };
 

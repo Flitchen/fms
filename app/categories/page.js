@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default async function Page() {
+export default function Page() {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     async function getCategories() {
@@ -35,11 +35,12 @@ export default async function Page() {
 
       <div className="mt-20 grid gap-5 hero">
         {categories.map((category) => (
-          <Link href={`/categories/${category.name}`}>
-            <div
-              key={category.id}
-              className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300"
-            >
+          <Link
+            href={`/categories/${category.name}`}
+            key={category.id}
+            passHref
+          >
+            <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
               <FontAwesomeIcon icon={faFolderClosed} size="2x" />
               <span className="text-center capitalize">{category.name}</span>
             </div>

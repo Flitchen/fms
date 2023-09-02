@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function GET(request, { params }) {
   try {
     let name = params.name;
-    console.log(name);
 
     name = name.toLowerCase();
 
@@ -16,7 +15,6 @@ export async function GET(request, { params }) {
         id: true,
       },
     });
-    // console.log(roleId);
     if (!categoryId) {
       throw new Error("The category does not exist!");
     }
@@ -26,10 +24,9 @@ export async function GET(request, { params }) {
         category: categoryId.id,
       },
     });
-    // console.log(allUsers);
     return NextResponse.json(allFiles, { status: 200 });
   } catch (error) {
     console.log(error);
-    throw new Error(`Error in fetching ${role}s`);
+    throw new Error(`Error in fetching ${name}s`);
   }
 }

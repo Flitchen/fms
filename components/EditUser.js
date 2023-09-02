@@ -1,20 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import React from "react";
 import { toast } from "react-hot-toast";
 
-export default function AddUser() {
+export default function EditUser({ id }) {
   const router = useRouter();
+  const userId = id;
   const [roles, setRoles] = useState([]);
-  const getRoles = async () => {
-    const response = await fetch(`http://localhost:3000/api/users`, {
-      cache: "no-store",
-    });
-    const roleData = await response.json();
-    setRoles(roleData);
-  };
+
   const [formData, setFormData] = useState({
     fname: "",
     mname: "",
@@ -24,20 +19,56 @@ export default function AddUser() {
     role: "",
   });
 
+  useEffect(() => {
+    async function getUser() {
+      const response = await fetch(
+        `http://localhost:3000/api/update-user/${userId}`,
+        {
+          cache: "no-store",
+        }
+      );
+      const userData = await response.json();
+      console.log(userData);
+      const { first_name, middle_name, last_name, address, phone_no } =
+        userData.userExist;
+      const { roleName } = userData;
+      setFormData({
+        fname: first_name,
+        mname: middle_name,
+        lname: last_name,
+        phone: phone_no,
+        address,
+        role: roleName,
+      });
+    }
+    getUser();
+    async function getRoles() {
+      const response = await fetch(`http://localhost:3000/api/users`, {
+        cache: "no-store",
+      });
+      const roleData = await response.json();
+      setRoles(roleData);
+    }
+    getRoles();
+  }, [userId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:3000/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `http://localhost:3000/api/update-user/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
     // Checking if the response was okay.
     if (response.ok) {
-      toast.success("User was added successfully");
-      router.push("/users");
+      toast.success("User was updated successfully");
+      router.push(`/users/${formData.role}s`);
     } else {
       toast.error("Failed to add user");
     }
@@ -45,7 +76,7 @@ export default function AddUser() {
 
   return (
     <div className="container mx-auto py-10">
-      <h2 className="text-xl text-center font-semibold mb-4">Add user</h2>
+      <h2 className="text-xl text-center font-semibold mb-4">Edit user</h2>
       <form
         onSubmit={handleSubmit}
         className="max-w-md mx-auto p-4 border rounded shadow"
@@ -63,7 +94,6 @@ export default function AddUser() {
               id="fname"
               name="fname"
               placeholder="Required"
-              autoComplete="off"
               value={formData.fname}
               onChange={(e) => {
                 setFormData({ ...formData, fname: e.target.value });
@@ -84,7 +114,6 @@ export default function AddUser() {
               id="mname"
               name="mname"
               placeholder="Optional"
-              autoComplete="off"
               value={formData.mname}
               onChange={(e) => {
                 setFormData({ ...formData, mname: e.target.value });
@@ -104,7 +133,6 @@ export default function AddUser() {
               id="lname"
               name="lname"
               placeholder="Required"
-              autoComplete="off"
               value={formData.lname}
               onChange={(e) => {
                 setFormData({ ...formData, lname: e.target.value });
@@ -126,7 +154,6 @@ export default function AddUser() {
               id="phone"
               name="phone"
               placeholder="+2551234567"
-              autoComplete="off"
               value={formData.phone}
               onChange={(e) => {
                 setFormData({ ...formData, phone: e.target.value });
@@ -162,6 +189,7 @@ export default function AddUser() {
             >
               Role
             </label>
+
             <input
               type="text"
               id="role"

@@ -15,24 +15,23 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const data = await request.formData()
-  const file = data.get('file')
-  const category =await data.get('category')
-  let uploaderId =await data.get('user')
-    const uploader= parseInt(uploaderId)
+  const data = await request.formData();
+  const file = data.get("file");
+  const category = await data.get("category");
+  let uploaderId = await data.get("user");
+  const uploader = parseInt(uploaderId);
 
   try {
-    if(!file||!category){
-      throw new Error("Please fill all the fields")
-  }
-    
+    if (!file || !category) {
+      throw new Error("Please fill all the fields");
+    }
+
     const fileExists = await prisma.file.findUnique({
       where: {
-        name:file.name
+        name: file.name,
       },
     });
     if (fileExists) {
-      // throw new Error('Username already exists')
       throw new Error("File with such name already exists");
     }
     const categoryId = await prisma.category.findUnique({
@@ -56,12 +55,11 @@ export async function POST(request) {
     );
     const newFile = await prisma.file.create({
       data: {
-        name:file.name,
+        name: file.name,
         uploader,
         category: categoryId.id,
       },
     });
-    // console.log(newFile);
     if (!newFile) {
       throw new Error("Failed to upload file! Please try asgain");
     }

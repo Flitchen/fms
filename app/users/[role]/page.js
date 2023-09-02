@@ -1,14 +1,35 @@
 "use client";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-export default async function AdminTable({ params }) {
-  // const tableData = [
-  //   { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-  //   { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
-  //   { id: 3, name: "Mike Johnson", email: "mike@example.com", role: "User" },
-  //   // Add more data as needed
-  // ];
+export default function AdminTable({ params }) {
   const [users, setUsers] = useState([]);
+  const router = useRouter();
+  const handleDelete = async (id) => {
+    const hasConfirmed = confirm("Are sure you want to delete this user?");
+    if (hasConfirmed) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/update-user/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (!response.ok) {
+          toast.error("Failed to delete user");
+        } else {
+          toast.success("User was deleted successfully");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   useEffect(() => {
     async function getUsers() {
       const response = await fetch(
@@ -18,12 +39,10 @@ export default async function AdminTable({ params }) {
         }
       );
       const userData = await response.json();
-      console.log(userData);
       setUsers(userData);
     }
     getUsers();
-  }, []);
-  // console.log(users);
+  }, [users]);
   return (
     <>
       <h1 className="text-center text-5xl capitalize">{params.role}</h1>
@@ -32,8 +51,8 @@ export default async function AdminTable({ params }) {
           A list of {params.role}
         </h2>
 
-        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="shadow overflow-auto border-b border-gray-200 sm:rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200 ">
             <thead className="bg-gray-50">
               <tr>
                 <th
@@ -72,6 +91,12 @@ export default async function AdminTable({ params }) {
                 >
                   Address
                 </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r"
+                >
+                  Edit or Delete
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -109,6 +134,43 @@ export default async function AdminTable({ params }) {
                     <span className="px-2 inline-flex text-xs capitalize leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                       {user.address}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap border-r">
+                    <div className="flex justify-around">
+                      <Link href={`/users/update-user/${user.id}`} passHref>
+                        <div className="hover:bg-gray-300 p-2 rounded">
+                          <FontAwesomeIcon icon={faPen} />
+                        </div>
+                      </Link>
+                      <div
+                        className="hover:bg-gray-300 p-2 rounded"
+                        onClick={async () => {
+                          const hasConfirmed = confirm(
+                            `Are sure you want to delete  ${user.first_name} ${user.last_name}?`
+                          );
+                          if (hasConfirmed) {
+                            try {
+                              const response = await fetch(
+                                `http://localhost:3000/api/update-user/${user.id}`,
+                                {
+                                  method: "DELETE",
+                                }
+                              );
+                              if (!response.ok) {
+                                toast.error("Failed to delete user");
+                              } else {
+                                toast.success("User was deleted successfully");
+                                router.push(`/users/${params.role}`);
+                              }
+                            } catch (error) {
+                              console.log(error);
+                            }
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ))}

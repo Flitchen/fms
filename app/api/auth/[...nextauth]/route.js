@@ -22,6 +22,7 @@ export const authOptions = {
       async authorize(credentials) {
         if (!credentials.username || !credentials.password) {
           return null;
+          // throw new Error("Please fill in all the fields!");
         }
 
         const user = await prisma.user.findUnique({
@@ -32,6 +33,7 @@ export const authOptions = {
 
         if (!user) {
           return null;
+          // throw new Error("Incorrect username or password!");
         }
 
         // const passwordMatch = await compare(
@@ -43,6 +45,7 @@ export const authOptions = {
         // }
         if (credentials.password != user.password) {
           return null;
+          // throw new Error("Incorrect username or password!");
         }
 
         return {

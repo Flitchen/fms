@@ -1,19 +1,11 @@
 "use client";
 import AddBtn from "@/components/AddBtn";
-import {
-  faFileLines,
-  faFolderClosed,
-  faUser,
-} from "@fortawesome/free-regular-svg-icons";
+import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default async function Page() {
-  const { data: session } = useSession();
-  const { user } = session;
-  // console.log(user);
+export default function Page() {
   const [files, setFiles] = useState([]);
   useEffect(() => {
     async function getFiles() {
@@ -46,11 +38,8 @@ export default async function Page() {
         )}
         <div className="mt-20 grid gap-5 hero">
           {files.map((file) => (
-            <a href={`${file.name}`} target="_blank">
-              <div
-                key={file.id}
-                className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300"
-              >
+            <a href={`${file.name}`} key={file.id} target="_blank">
+              <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
                 <FontAwesomeIcon icon={faFileLines} size="2x" />
                 <span className="text-center capitalize">{file.name}</span>
               </div>

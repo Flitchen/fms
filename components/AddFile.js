@@ -9,11 +9,9 @@ import { toast } from "react-hot-toast";
 export default function AddFile() {
   const { data: session } = useSession();
   const { user } = session;
-  // console.log(user)
   const router = useRouter();
   const [category, setCategory] = useState("");
   const uploader = user.user.id;
-  // console.log(uploader)
   const [file, setFile] = useState();
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -22,7 +20,6 @@ export default function AddFile() {
         cache: "no-store",
       });
       const categoryData = await response.json();
-      console.log(categoryData);
       setCategories(categoryData);
     }
     getCategories();

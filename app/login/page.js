@@ -1,8 +1,11 @@
 "use client";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
+  const router = useRouter();
   const [login, setLogin] = useState({
     username: "",
     password: "",
@@ -12,8 +15,15 @@ export default function Login() {
     await signIn("credentials", {
       ...login,
       redirect: true,
+
       callbackUrl: "/",
     });
+    // .then((callback) => {
+    //   if (callback?.error) {
+    //     toast.error(callback.error);
+    //   }
+    //   router.push("/users");
+    // });
   };
   return (
     <div className="min-h-screen flex justify-center items-center">

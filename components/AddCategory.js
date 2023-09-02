@@ -33,17 +33,18 @@ const AddCategory = () => {
         className="max-w-md mx-auto p-4 pb-20 bg-white border rounded shadow"
       >
         <div className="mb-10">
-          <h1 class="text-3xl font-bold text-center my-4 cursor-pointer">
+          <h1 className="text-3xl font-bold text-center my-4 cursor-pointer">
             Add new category
           </h1>
         </div>
-        <div class="space-y-4">
+        <div className="space-y-4">
           <input
             type="text"
             id="name"
             name="name"
             placeholder="Enter category name"
             value={name}
+            autoComplete="off"
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -51,8 +52,8 @@ const AddCategory = () => {
             required
           />
         </div>
-        <div class="text-center mt-6">
-          <button class="py-3 w-64 text-xl text-white bg-gray-800 rounded-2xl">
+        <div className="text-center mt-6">
+          <button className="py-3 w-64 text-xl text-white bg-gray-800 rounded-2xl">
             Add Category
           </button>
         </div>

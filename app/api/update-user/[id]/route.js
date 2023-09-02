@@ -1,17 +1,37 @@
 import { prisma } from "@/config/db";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request, { params }) {
+  const userId = parseInt(params.id);
   try {
-    const userRoles = await prisma.role.findMany();
-    return NextResponse.json(userRoles, { status: 200 });
+    //Checking if user exists
+    const userExist = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!userExist) {
+      throw new Error("User does not exist!");
+    }
+    const roleName = await prisma.role.findUnique({
+      where: {
+        id: userExist.role,
+      },
+      select: {
+        name: true,
+      },
+    });
+    return NextResponse.json(
+      { userExist, roleName: roleName.name },
+      { status: 201 }
+    );
   } catch (error) {
     console.log(error);
-    throw new Error("Error fetching users");
   }
 }
 
-export async function POST(request) {
+export async function PATCH(request, { params }) {
+  const userId = parseInt(params.id);
   let { fname, mname, lname, phone, address, role } = await request.json();
   fname = fname.toLowerCase();
   mname = mname.toLowerCase();
@@ -19,7 +39,6 @@ export async function POST(request) {
   phone = phone.toLowerCase();
   address = address.toLowerCase();
   role = role.toLowerCase();
-  const password = "12345";
 
   try {
     if (!fname || !lname || !phone || !address || !role) {
@@ -27,25 +46,13 @@ export async function POST(request) {
         "Some fields weren't filled! Please fill all the required fields "
       );
     }
-
     const username = lname + "@2023";
-
-    const usernameExists = await prisma.user.findUnique({
-      where: {
-        username,
-      },
-    });
-    if (usernameExists) {
-      throw new Error("Username already exists");
-    }
-
-    //Checking if role ise present
     const rolePresent = await prisma.role.findUnique({
       where: {
         name: role,
       },
     });
-
+    //Checking if the role is present
     if (rolePresent) {
       const roleId = await prisma.role.findUnique({
         where: {
@@ -55,26 +62,27 @@ export async function POST(request) {
           id: true,
         },
       });
-      const newUser = await prisma.user.create({
+      const updateUser = await prisma.user.update({
+        where: {
+          id: userId,
+        },
         data: {
           first_name: fname,
           middle_name: mname,
           last_name: lname,
           username,
-          password,
           phone_no: phone,
           address,
           role: roleId.id,
         },
       });
-      //insert user
 
-      if (!newUser) {
-        throw new Error("Failed to add user");
+      if (!updateUser) {
+        throw new Error("Failed to update user details");
       } else {
         return NextResponse.json(
           {
-            message: "User was added successfully",
+            message: "User details were updated successfully",
           },
           { status: 200 }
         );
@@ -98,30 +106,53 @@ export async function POST(request) {
           id: true,
         },
       });
-      const newUser = await prisma.user.create({
+      const updateUser = await prisma.user.update({
         data: {
           first_name: fname,
           middle_name: mname,
           last_name: lname,
-          username,
-          password,
+
           phone_no: phone,
           address,
           role: roleId.id,
         },
       });
-      if (!newUser) {
-        throw new Error("Failed to add user");
+
+      if (!updateUser) {
+        throw new Error("Failed to update user details");
       }
+
       return NextResponse.json(
         {
-          message: "User was added successfully",
+          message: "User details were added successfully",
         },
         { status: 200 }
       );
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to add user");
+  }
+}
+
+export async function DELETE(request, { params }) {
+  const userId = parseInt(params.id);
+  try {
+    const deleteUser = await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!deleteUser) {
+      throw new Error("Failed to delete user");
+    }
+    return NextResponse.json(
+      {
+        message: "User deleted successfully",
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.log(error);
   }
 }

@@ -1,10 +1,10 @@
 "use client";
 import AddBtn from "@/components/AddBtn";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { FaUser } from "react-icons/fa6";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -41,7 +41,7 @@ export default function Page() {
             {roles.map((role) => (
               <Link href={`/users/${role.name}s`} key={role.id} passHref>
                 <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
-                  <FontAwesomeIcon icon={faUser} size="2x" />
+                  <FaUser />
                   <span className="text-center capitalize">{role.name}s</span>
                 </div>
               </Link>

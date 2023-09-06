@@ -53,3 +53,14 @@ export async function POST(req: NextRequest) {
     lastModified: new Date(file.lastModified),
   });
 }
+
+
+
+
+
+// include node fs module
+var fs = require('fs');
+
+// delete file named 'sample.txt' Synchronously
+fs.unlinkSync('sample.txt');
+console.log('File deleted!');

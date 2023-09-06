@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartBar,
-  faRectangleList,
-} from "@fortawesome/free-regular-svg-icons";
-import { faLayerGroup, faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+  FaChartBar,
+  FaLayerGroup,
+  FaPeopleGroup,
+  FaRectangleList,
+} from "react-icons/fa6";
+
 import { signOut } from "next-auth/react";
 
 import React from "react";
@@ -86,20 +87,14 @@ export default function Navbar() {
           <ul className="p-2">
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
               <Link href="/" passHref className="flex flex-row px-3">
-                <FontAwesomeIcon
-                  icon={faChartBar}
-                  className="text-white mr=2"
-                />
+                <FaChartBar />
                 <span className="ml-5 block">Dashboard</span>
               </Link>
             </li>
             {user?.user.role == 1 ? (
               <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
                 <Link href="/users" passHref className="flex flex-row px-3">
-                  <FontAwesomeIcon
-                    icon={faPeopleGroup}
-                    className="text-white mr=2"
-                  />
+                  <FaPeopleGroup />
                   <span className="ml-5 block">Users</span>
                 </Link>
               </li>
@@ -109,19 +104,13 @@ export default function Navbar() {
 
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
               <Link href="/categories" passHref className="flex flex-row px-3">
-                <FontAwesomeIcon
-                  icon={faRectangleList}
-                  className="text-white mr=2"
-                />
+                <FaRectangleList />
                 <span className="ml-5 block">Categories</span>
               </Link>
             </li>
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
               <Link href="/files" passHref className="flex flex-row px-3">
-                <FontAwesomeIcon
-                  icon={faLayerGroup}
-                  className="text-white mr=2"
-                />
+                <FaLayerGroup />
                 <span className="ml-5 block">Files</span>
               </Link>
             </li>

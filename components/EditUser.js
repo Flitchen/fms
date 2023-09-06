@@ -28,7 +28,6 @@ export default function EditUser({ id }) {
         }
       );
       const userData = await response.json();
-      console.log(userData);
       const { first_name, middle_name, last_name, address, phone_no } =
         userData.userExist;
       const { roleName } = userData;

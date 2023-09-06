@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Toasters from "./toaster";
+import Login from "@/components/Login";
 
 export const metadata = {
   title: "File Management System",
@@ -18,11 +19,17 @@ export default async function RootLayout({ children }) {
       <body>
         <Providers session={session}>
           <Toasters />
-          {session && <Navbar />}
-          <div className="flex">
-            <div>{session && <Sidebar />}</div>
-            <div className="container m-10">{children}</div>
-          </div>
+          {!session ? (
+            <Login />
+          ) : (
+            <div className="flex">
+              <div>{session && <Sidebar />}</div>
+              <div className="container">
+                {session && <Navbar />}
+                <div className="m-10">{children}</div>
+              </div>
+            </div>
+          )}
         </Providers>
       </body>
     </html>

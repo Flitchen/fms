@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import React from "react";
 import { toast } from "react-hot-toast";
@@ -8,13 +8,6 @@ import { toast } from "react-hot-toast";
 export default function AddUser() {
   const router = useRouter();
   const [roles, setRoles] = useState([]);
-  const getRoles = async () => {
-    const response = await fetch(`http://localhost:3000/api/users`, {
-      cache: "no-store",
-    });
-    const roleData = await response.json();
-    setRoles(roleData);
-  };
   const [formData, setFormData] = useState({
     fname: "",
     mname: "",
@@ -23,7 +16,16 @@ export default function AddUser() {
     address: "",
     role: "",
   });
-
+  useEffect(() => {
+    async function getRoles() {
+      const response = await fetch(`http://localhost:3000/api/users`, {
+        cache: "no-store",
+      });
+      const roleData = await response.json();
+      setRoles(roleData);
+    }
+    getRoles();
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
 

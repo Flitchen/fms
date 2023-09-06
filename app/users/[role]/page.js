@@ -1,35 +1,15 @@
 "use client";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { FaPen, FaTrashCan } from "react-icons/fa6";
 
 export default function AdminTable({ params }) {
   const [users, setUsers] = useState([]);
   const router = useRouter();
-  const handleDelete = async (id) => {
-    const hasConfirmed = confirm("Are sure you want to delete this user?");
-    if (hasConfirmed) {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/update-user/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
-        if (!response.ok) {
-          toast.error("Failed to delete user");
-        } else {
-          toast.success("User was deleted successfully");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+
   useEffect(() => {
     async function getUsers() {
       const response = await fetch(
@@ -139,7 +119,7 @@ export default function AdminTable({ params }) {
                     <div className="flex justify-around">
                       <Link href={`/users/update-user/${user.id}`} passHref>
                         <div className="hover:bg-gray-300 p-2 rounded">
-                          <FontAwesomeIcon icon={faPen} />
+                          <FaPen />
                         </div>
                       </Link>
                       <div
@@ -168,7 +148,7 @@ export default function AdminTable({ params }) {
                           }
                         }}
                       >
-                        <FontAwesomeIcon icon={faTrashCan} />
+                        <FaTrashCan />
                       </div>
                     </div>
                   </td>

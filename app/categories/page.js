@@ -1,9 +1,8 @@
 "use client";
 import AddBtn from "@/components/AddBtn";
-import { faFolderClosed } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { FaFolderClosed } from "react-icons/fa6";
 
 export default function Page() {
   const [categories, setCategories] = useState([]);
@@ -41,7 +40,7 @@ export default function Page() {
             passHref
           >
             <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
-              <FontAwesomeIcon icon={faFolderClosed} size="2x" />
+              <FaFolderClosed />
               <span className="text-center capitalize">{category.name}</span>
             </div>
           </Link>

@@ -107,6 +107,9 @@ export async function PATCH(request, { params }) {
         },
       });
       const updateUser = await prisma.user.update({
+        where: {
+          id: userId,
+        },
         data: {
           first_name: fname,
           middle_name: mname,

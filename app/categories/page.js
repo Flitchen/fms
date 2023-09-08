@@ -3,8 +3,25 @@ import AddBtn from "@/components/AddBtn";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaFolderClosed } from "react-icons/fa6";
+import Loading from "../loading";
 
 export default function Page() {
+  return (
+    <>
+      <div>
+        <div className="text-5xl text-center text-semibold">
+          Categories Page
+        </div>
+        <Link href={"/categories/add-category"} passHref>
+          <AddBtn type="category" />
+        </Link>
+      </div>
+      <CategoryList />
+    </>
+  );
+}
+
+function CategoryList() {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     async function getCategories() {
@@ -20,32 +37,23 @@ export default function Page() {
   return (
     <>
       {categories.length !== 0 ? (
-        <div>
-          <div className="text-5xl text-center text-semibold">
-            Categories Page
-          </div>
-          <Link href={"/categories/add-category"} passHref>
-            <AddBtn type="category" />
-          </Link>
+        <div className="mt-20 grid gap-5 hero">
+          {categories.map((category) => (
+            <Link
+              href={`/categories/${category.name}`}
+              key={category.id}
+              passHref
+            >
+              <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
+                <FaFolderClosed />
+                <span className="text-center capitalize">{category.name}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       ) : (
-        <div>Loading...</div>
+        <Loading />
       )}
-
-      <div className="mt-20 grid gap-5 hero">
-        {categories.map((category) => (
-          <Link
-            href={`/categories/${category.name}`}
-            key={category.id}
-            passHref
-          >
-            <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
-              <FaFolderClosed />
-              <span className="text-center capitalize">{category.name}</span>
-            </div>
-          </Link>
-        ))}
-      </div>
     </>
   );
 }

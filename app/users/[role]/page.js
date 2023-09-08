@@ -5,19 +5,40 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { FaPen, FaTrashCan } from "react-icons/fa6";
+import Loading from "@/app/loading";
+import { useSession } from "next-auth/react";
 
-export default function AdminTable({ params }) {
+export default function Table({ params }) {
+  const { data: session } = useSession();
+  const { user } = session;
+  return (
+    <>
+      {user.user.role === 1 ? (
+        <>
+          <h1 className="text-center text-5xl capitalize">{params.role}</h1>
+          <div className="container mx-auto py-10">
+            <h2 className="text-xl capitalize font-semibold mb-4">
+              A list of {params.role}
+            </h2>
+            <TableList role={params.role} />
+          </div>
+        </>
+      ) : (
+        <h1 className="text-center text-5xl mt-14">Unauthorized page</h1>
+      )}
+    </>
+  );
+}
+
+function TableList({ role }) {
   const [users, setUsers] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
     async function getUsers() {
-      const response = await fetch(
-        `http://localhost:3000/api/users/${params?.role}`,
-        {
-          cache: "no-store",
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/users/${role}`, {
+        cache: "no-store",
+      });
       const userData = await response.json();
       setUsers(userData);
     }
@@ -25,12 +46,7 @@ export default function AdminTable({ params }) {
   }, [users]);
   return (
     <>
-      <h1 className="text-center text-5xl capitalize">{params.role}</h1>
-      <div className="container mx-auto py-10">
-        <h2 className="text-xl capitalize font-semibold mb-4">
-          A list of {params.role}
-        </h2>
-
+      {users.length !== 0 ? (
         <div className="shadow overflow-auto border-b border-gray-200 sm:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200 ">
             <thead className="bg-gray-50">
@@ -81,7 +97,7 @@ export default function AdminTable({ params }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {users.map((user, index) => (
-                <tr key={user.id} className="hover:bg-gray-100">
+                <tr key={user.id} className="text-center hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap border-r">
                     <div className="text-sm text-gray-900">{index + 1}</div>
                   </td>
@@ -96,7 +112,7 @@ export default function AdminTable({ params }) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap border-r">
                     <div className="text-sm capitalize text-gray-900">
-                      {user.middle_name}
+                      {user.middle_name === "" ? "-" : user.middle_name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap border-r">
@@ -157,7 +173,9 @@ export default function AdminTable({ params }) {
             </tbody>
           </table>
         </div>
-      </div>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

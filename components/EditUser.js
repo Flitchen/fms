@@ -53,6 +53,7 @@ export default function EditUser({ id }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.loading("Updating user");
 
     const response = await fetch(
       `http://localhost:3000/api/update-user/${userId}`,

@@ -6,6 +6,8 @@ import {
   FaPeopleGroup,
   FaRectangleList,
 } from "react-icons/fa6";
+import { PiFiles } from "react-icons/pi";
+import { BiSolidLock } from "react-icons/bi";
 
 import { useSession } from "next-auth/react";
 
@@ -14,19 +16,25 @@ export default function Sidebar() {
   const { user } = session;
 
   return (
-    <div className="bg-gray-800 h-screen text-white w-56 flex-shrink-0  hidden md:block">
-      <nav className="text-sm">
-        <div className="text-3xl ml-6 pb-14">
+    <div className="bg-sky-900 h-screen text-white w-56 flex-shrink-0  hidden md:block shadow-4xl">
+      <nav className="text-md">
+        <div className="text-2xl  pb-3 pt-2 h-16 bg-sky-800">
           <Link href="/" passHref>
-            <span className="text-white font-bold text-xl">4 SITE</span>
+            <div className="flex flex-row mt-3 ml-3">
+              <PiFiles className="text-orange-400 mr-4 text-[38px]" />
+              <span className="text-orange-400 font-medium text-[40px] ml-1">
+                4
+              </span>
+              <span className="text-white text-2xl font-medium mt-2">SITE</span>
+            </div>
           </Link>
         </div>
-        <ul className="p-2">
+        <ul className="p-3 pt-12 text-md text-white">
           <Link href={"/"} passHref>
-            <li className="py-4 hover:bg-orange-400 hover:rounded">
-              <div className="flex flex-row px-3">
-                <FaChartBar className="text-white mr=2" />
-                <span className="ml-5 hover:text-gray-300 block">
+            <li className="py-4 hover:bg-orange-400 hover:rounded-lg">
+              <div className="flex flex-row px-2 items-center">
+                <FaChartBar className="text-white mr-1 text-xl" />
+                <span className="ml-3 hover:text-gray-300 block">
                   Dashboard
                 </span>
               </div>
@@ -35,10 +43,10 @@ export default function Sidebar() {
 
           {user.user.role == 1 ? (
             <Link href={"/users"} passHref>
-              <li className="py-4 hover:bg-orange-400 hover:rounded">
-                <div className="flex flex-row px-3">
-                  <FaPeopleGroup className="text-white mr=2" />
-                  <span className="ml-5 hover:text-gray-300 block">Users</span>
+              <li className="py-4 hover:bg-orange-400 hover:rounded-lg">
+                <div className="flex flex-row px-2 items-center">
+                  <FaPeopleGroup className="text-white mr-1 text-xl" />
+                  <span className="ml-3 hover:text-gray-300 block">Users</span>
                 </div>
               </li>
             </Link>
@@ -47,20 +55,29 @@ export default function Sidebar() {
           )}
 
           <Link href={"/categories"} passHref>
-            <li className="py-4 hover:bg-orange-400 hover:rounded">
-              <div className="flex flex-row px-3">
-                <FaRectangleList className="text-white mr=2" />
-                <span className="ml-5 hover:text-gray-300 block">
+            <li className="py-4 hover:bg-orange-400 hover:rounded-lg">
+              <div className="flex flex-row px-2 items-center">
+                <FaRectangleList className="text-white mr-1 text-xl" />
+                <span className="ml-3 hover:text-gray-300 block">
                   Categories
                 </span>
               </div>
             </li>
           </Link>
           <Link href={"/files"} passHref>
-            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
-              <div className="flex flex-row px-3">
-                <FaLayerGroup className="text-white mr=2" />
-                <span className="ml-5 block">Files</span>
+            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded-lg">
+              <div className="flex flex-row px-2 items-center-2">
+                <FaLayerGroup className="text-white mr-1 text-xl" />
+                <span className="ml-3 block">Files</span>
+              </div>
+            </li>
+          </Link>
+          <Link href={"/password-change"} passHref>
+            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded-lg">
+              <div className="flex flex-row px-2 items-center-2">
+                <BiSolidLock className="text-white mr-1 text-xl" />
+
+                <span className="ml-3 block">Change Password</span>
               </div>
             </li>
           </Link>

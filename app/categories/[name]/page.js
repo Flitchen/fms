@@ -3,7 +3,7 @@ import AddBtn from "@/components/AddBtn";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaFileLines, FaTrashCan } from "react-icons/fa6";
-import Loading from "../loading";
+import Loading from "@/app/loading";
 import { toast } from "react-hot-toast";
 
 export default function Page({ params }) {

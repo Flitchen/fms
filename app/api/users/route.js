@@ -1,4 +1,5 @@
 import { prisma } from "@/config/db";
+import { hashSync } from "bcrypt";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -19,7 +20,7 @@ export async function POST(request) {
   phone = phone.toLowerCase();
   address = address.toLowerCase();
   role = role.toLowerCase();
-  const password = "12345";
+  const password = hashSync("12345", 10);
 
   try {
     if (!fname || !lname || !phone || !address || !role) {

@@ -8,7 +8,7 @@ import {
   FaPeopleGroup,
   FaRectangleList,
 } from "react-icons/fa6";
-
+import { BiSolidLock, BiLogOut } from "react-icons/bi";
 import { signOut } from "next-auth/react";
 
 import React from "react";
@@ -24,17 +24,22 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-gray-800 w-full">
+      <nav className="bg-sky-900 w-full">
         <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center"></div>
+            <div className="flex text-orange-400 items-center">
+              Welcome,
+              <span className="uppercase ml-1 text-white">
+                {user.user.first_name} {user.user.last_name}
+              </span>
+            </div>
             <button
               onClick={() => {
                 if (confirm("Are you sure you want to log out?")) {
                   signOut();
                 }
               }}
-              className="text-white rounded px-5 py-2 bg-blue-500 hover:bg-orange-400"
+              className="text-black rounded-xl px-5 py-2 hidden md:block  bg-orange-400 hover:bg-orange-600"
             >
               Logout
             </button>
@@ -86,14 +91,22 @@ export default function Navbar() {
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <ul className="p-2">
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
-              <Link href="/" passHref className="flex flex-row px-3">
+              <Link
+                href="/"
+                passHref
+                className="flex flex-row px-3 items-center"
+              >
                 <FaChartBar />
                 <span className="ml-5 block">Dashboard</span>
               </Link>
             </li>
-            {user?.user.role == 1 ? (
+            {user?.user.role === 1 ? (
               <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
-                <Link href="/users" passHref className="flex flex-row px-3">
+                <Link
+                  href="/users"
+                  passHref
+                  className="flex flex-row px-3 items-center"
+                >
                   <FaPeopleGroup />
                   <span className="ml-5 block">Users</span>
                 </Link>
@@ -103,16 +116,48 @@ export default function Navbar() {
             )}
 
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
-              <Link href="/categories" passHref className="flex flex-row px-3">
+              <Link
+                href="/categories"
+                passHref
+                className="flex flex-row px-3 items-center"
+              >
                 <FaRectangleList />
                 <span className="ml-5 block">Categories</span>
               </Link>
             </li>
             <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
-              <Link href="/files" passHref className="flex flex-row px-3">
+              <Link
+                href="/files"
+                passHref
+                className="flex flex-row px-3 items-center"
+              >
                 <FaLayerGroup />
                 <span className="ml-5 block">Files</span>
               </Link>
+            </li>
+            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+              <Link
+                href="/password-change"
+                passHref
+                className="flex flex-row px-3 items-center"
+              >
+                <BiSolidLock />
+                <span className="ml-5 block">Change Password</span>
+              </Link>
+            </li>
+
+            <li
+              onClick={() => {
+                if (confirm("Are you sure you want to log out?")) {
+                  signOut();
+                }
+              }}
+              className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+            >
+              <div className="flex flex-row px-3 items-center">
+                <BiLogOut />
+                <span className="ml-5 block">Logout</span>
+              </div>
             </li>
           </ul>
         </div>

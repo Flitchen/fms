@@ -27,6 +27,8 @@ export default function AddFile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
+    toast.loading("Uploading file");
+
     try {
       const data = new FormData();
       data.set("file", file);

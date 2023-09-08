@@ -9,6 +9,7 @@ const AddCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.loading("Creating category");
 
     const response = await fetch("http://localhost:3000/api/categories", {
       method: "POST",

@@ -2,11 +2,12 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/config/db";
+import { compare } from "bcrypt";
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: "/login",
+    signIn: "/",
   },
   providers: [
     CredentialsProvider({
@@ -21,8 +22,8 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials.username || !credentials.password) {
-          return null;
-          // throw new Error("Please fill in all the fields!");
+          // return null;
+          throw new Error("Please fill in all the fields!");
         }
 
         const user = await prisma.user.findUnique({
@@ -32,20 +33,16 @@ export const authOptions = {
         });
 
         if (!user) {
-          return null;
-          // throw new Error("Incorrect username or password!");
+          // return null;
+          throw new Error("Incorrect username or password!");
         }
 
-        // const passwordMatch = await compare(
-        //   credentials.password,
-        //   user.password
-        // );
-        // if (!passwordMatch) {
-        //   return null;
-        // }
-        if (credentials.password != user.password) {
-          return null;
-          // throw new Error("Incorrect username or password!");
+        const passwordMatch = await compare(
+          credentials.password,
+          user.password
+        );
+        if (!passwordMatch) {
+          throw new Error("Incorrect username or password!");
         }
 
         return {

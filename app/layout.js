@@ -24,9 +24,9 @@ export default async function RootLayout({ children }) {
           ) : (
             <div className="flex">
               <div>{session && <Sidebar />}</div>
-              <div className="container">
+              <div className="container children">
                 {session && <Navbar />}
-                <div className="m-10">{children}</div>
+                <div className="m-10 ">{children}</div>
               </div>
             </div>
           )}

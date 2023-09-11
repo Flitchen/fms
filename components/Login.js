@@ -53,7 +53,7 @@ export default function Login() {
                 Username
               </label>
               <input
-                className="bg-white text-gray-700 shadow-md focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none"
+                className="bg-white text-gray-700 shadow-sm focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none"
                 type="text"
                 name="username"
                 placeholder="lastname@2023"
@@ -72,7 +72,7 @@ export default function Login() {
                 </label>
               </div>
               <input
-                className="bg-white text-gray-700 shadow-md focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none"
+                className="bg-white text-gray-700 shadow-sm focus:outline-none focus:shadow-outline border border-gray-300 rounded-md py-2 px-4 block w-full appearance-none"
                 type="password"
                 name="password"
                 placeholder="Password"

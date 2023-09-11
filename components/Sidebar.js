@@ -16,7 +16,7 @@ export default function Sidebar() {
   const { user } = session;
 
   return (
-    <div className="bg-sky-900 h-screen text-white w-56 flex-shrink-0  hidden md:block shadow-4xl">
+    <div className="bg-sky-900 h-screen text-white w-56 flex-shrink-0  hidden md:block shadow-4xl sticky top-0">
       <nav className="text-md">
         <div className="text-2xl  pb-3 pt-2 h-16 bg-sky-800">
           <Link href="/" passHref>

@@ -44,9 +44,13 @@ function CategoryList() {
               key={category.id}
               passHref
             >
-              <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
-                <FaFolderClosed />
-                <span className="text-center capitalize">{category.name}</span>
+              <div className="max-w-sm p-6 bg-slate-100 border border-gray-200 rounded-lg shadow dark:bg-gray-800 hover:shadow-xl">
+                <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg">
+                  <FaFolderClosed className="text-sky-500 text-4xl" />
+                  <span className="text-center capitalize">
+                    {category.name}
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

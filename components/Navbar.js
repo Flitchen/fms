@@ -17,6 +17,7 @@ export default function Navbar() {
   const { data: session } = useSession();
   const { user } = session;
   const [isOpen, setIsOpen] = useState(false);
+  const [logout, setLogOut] = useState(false);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -34,10 +35,8 @@ export default function Navbar() {
               </span>
             </div>
             <button
-              onClick={() => {
-                if (confirm("Are you sure you want to log out?")) {
-                  signOut();
-                }
+              onClick={(e) => {
+                setLogOut((prev) => !prev);
               }}
               className="text-black rounded-xl px-5 py-2 hidden md:block  bg-orange-400 hover:bg-orange-600"
             >
@@ -90,7 +89,10 @@ export default function Navbar() {
         {/* Mobile menu */}
         <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
           <ul className="p-2">
-            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+            <li
+              className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+              onClick={toggleNavbar}
+            >
               <Link
                 href="/"
                 passHref
@@ -101,7 +103,10 @@ export default function Navbar() {
               </Link>
             </li>
             {user?.user.role === 1 ? (
-              <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+              <li
+                className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+                onClick={toggleNavbar}
+              >
                 <Link
                   href="/users"
                   passHref
@@ -115,7 +120,10 @@ export default function Navbar() {
               <div></div>
             )}
 
-            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+            <li
+              className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+              onClick={toggleNavbar}
+            >
               <Link
                 href="/categories"
                 passHref
@@ -125,7 +133,10 @@ export default function Navbar() {
                 <span className="ml-5 block">Categories</span>
               </Link>
             </li>
-            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+            <li
+              className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+              onClick={toggleNavbar}
+            >
               <Link
                 href="/files"
                 passHref
@@ -135,7 +146,10 @@ export default function Navbar() {
                 <span className="ml-5 block">Files</span>
               </Link>
             </li>
-            <li className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded">
+            <li
+              className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
+              onClick={toggleNavbar}
+            >
               <Link
                 href="/password-change"
                 passHref
@@ -147,10 +161,8 @@ export default function Navbar() {
             </li>
 
             <li
-              onClick={() => {
-                if (confirm("Are you sure you want to log out?")) {
-                  signOut();
-                }
+              onClick={(e) => {
+                setLogOut((prev) => !prev);
               }}
               className="py-4 text-white hover:text-gray-300 hover:bg-orange-400 hover:rounded"
             >
@@ -161,6 +173,37 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
+        {logout === true ? (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
+            <div className="relative bg-white w-64 p-4 rounded-lg shadow-md">
+              <div className="font-semibold text-lg mb-2">
+                Logout Confirmation
+              </div>
+              <div className="text-gray-600 mb-4">
+                Are you sure you want to logout?
+              </div>
+              <div className="flex justify-end">
+                <button
+                  className="px-4 py-2 bg-sky-700 text-white rounded hover:bg-red-600 mr-2"
+                  onClick={() => signOut()}
+                >
+                  Yes
+                </button>
+                <button
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                  onClick={(e) => {
+                    setLogOut((prev) => !prev);
+                  }}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </nav>
     </>
   );

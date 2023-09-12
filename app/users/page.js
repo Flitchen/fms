@@ -3,7 +3,7 @@ import AddBtn from "@/components/AddBtn";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa6";
+import { FaPeopleGroup } from "react-icons/fa6";
 import Loading from "../loading";
 
 export default function Page() {
@@ -45,9 +45,11 @@ function RoleList() {
         <div className="mt-20 grid gap-5 hero">
           {roles.map((role) => (
             <Link href={`/users/${role.name}s`} key={role.id} passHref>
-              <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg hover:bg-gray-300">
-                <FaUser />
-                <span className="text-center capitalize">{role.name}s</span>
+              <div className="max-w-sm p-6 bg-slate-100 border border-gray-200 rounded-lg shadow dark:bg-gray-800 hover:shadow-xl">
+                <div className="flex flex-col justify-start items-center pt-5 px-2 pb-2 rounded-lg ">
+                  <FaPeopleGroup className="text-sky-500 text-4xl" />
+                  <span className="text-center capitalize">{role.name}s</span>
+                </div>
               </div>
             </Link>
           ))}

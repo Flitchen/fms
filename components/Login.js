@@ -40,12 +40,9 @@ export default function Login() {
 
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 lg:w-1/4"></span>
-              <a
-                href="#"
-                className="text-xs text-center text-gray-500 uppercase"
-              >
+              <span className="text-xs text-center text-gray-500 uppercase">
                 login with credentials
-              </a>
+              </span>
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
             <div className="mt-4">
@@ -94,9 +91,9 @@ export default function Login() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 md:w-1/4"></span>
-              <a href="#" className="text-xs text-gray-500 uppercase">
-                forget password
-              </a>
+              <span className="text-xs text-gray-500 uppercase">
+                forgot password
+              </span>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>
           </div>

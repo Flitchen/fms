@@ -26,7 +26,7 @@ export default function AddUser() {
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.loading("Creating user");
+    toast.loading("Adding user");
 
     const response = await fetch("http://localhost:3000/api/users", {
       method: "POST",

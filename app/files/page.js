@@ -27,6 +27,7 @@ export default function Page() {
 function FileList() {
   const [files, setFiles] = useState([]);
   const [deleting, setDeleting] = useState(false);
+  const [deletedFile, setDeletedFile] = useState("");
   const [search, setSearch] = useState("");
   const { data: session } = useSession();
   const { user } = session;
@@ -80,6 +81,7 @@ function FileList() {
                       className="flex justify-around space-x-2 hover:bg-gray-300 p-2 rounded"
                       onClick={(e) => {
                         setDeleting((prev) => !prev);
+                        setDeletedFile(file.name);
                       }}
                     >
                       <FaTrashCan className="text-red-400 " />
@@ -87,7 +89,7 @@ function FileList() {
                   ) : (
                     ""
                   )}
-                  {deleting === true ? (
+                  {deleting && deletedFile === file.name ? (
                     <div className="fixed inset-0 flex items-center justify-center z-50">
                       <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
                       <div className="relative bg-white w-64 p-4 rounded-lg shadow-md">
@@ -118,6 +120,7 @@ function FileList() {
                                 console.log(error);
                               } finally {
                                 setDeleting((prev) => !prev);
+                                setDeletedFile("");
                               }
                             }}
                           >
@@ -127,6 +130,7 @@ function FileList() {
                             className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
                             onClick={(e) => {
                               setDeleting((prev) => !prev);
+                              setDeletedFile("");
                             }}
                           >
                             Cancel

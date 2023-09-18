@@ -34,6 +34,7 @@ export default function Table({ params }) {
 function TableList({ role }) {
   const [users, setUsers] = useState([]);
   const [deleting, setDeleting] = useState(false);
+  const [deletedUser, setDeletedUser] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -127,13 +128,12 @@ function TableList({ role }) {
                       {user.phone_no}{" "}
                     </span>
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap border-r">
                     <span className="px-2 inline-flex text-xs capitalize leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                       {user.address}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap border-r">
+                  <td className="px-6 py-4 whitespace-wrap border-r">
                     <div className="flex justify-around">
                       <Link href={`/users/update-user/${user.id}`} passHref>
                         <div className="hover:bg-gray-300 p-2 rounded">
@@ -144,62 +144,69 @@ function TableList({ role }) {
                         className="hover:bg-gray-300 p-2 rounded"
                         onClick={(e) => {
                           setDeleting((prev) => !prev);
+                          console.log(user.id);
+                          setDeletedUser(user.id);
                         }}
                       >
                         <FaTrashCan className="text-red-400 " />
                       </div>
-                      {deleting === true ? (
-                        <div className="fixed inset-0 flex items-center justify-center z-50">
-                          <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
-                          <div className="relative bg-white w-64 p-4 rounded-lg shadow-md">
-                            <div className="font-semibold text-lg mb-2">
-                              Delete Confirmation
-                            </div>
-                            <div className="text-gray-600 mb-4">
-                              Are you sure you want to delete this user?
-                            </div>
-                            <div className="flex justify-end">
-                              <button
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mr-2"
-                                onClick={async () => {
-                                  toast.loading(
-                                    `Deleting {user.first_name} {user.last_name}`
-                                  );
-                                  try {
-                                    const response = await fetch(
-                                      `http://localhost:3000/api/update-user/${user.id}`,
-                                      {
-                                        method: "DELETE",
-                                      }
+                      {deleting && deletedUser === user.id ? (
+                        <>
+                          <div className="fixed inset-0 flex items-center justify-center z-50">
+                            <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
+                            <div className="relative bg-white w-64 p-4 rounded-lg shadow-md w-50">
+                              <div className="font-semibold text-lg mb-2">
+                                Delete Confirmation
+                              </div>
+                              <div className="text-gray-600 mb-4 ">
+                                Are you sure you want to delete{" "}
+                                {user.first_name}?
+                              </div>
+                              <div className="flex justify-end">
+                                <button
+                                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mr-2"
+                                  onClick={async () => {
+                                    toast.loading(
+                                      `Deleting ${user.first_name} ${user.last_name}`
                                     );
-                                    if (!response.ok) {
-                                      toast.error("Failed to delete user");
-                                    } else {
-                                      toast.success(
-                                        "User was deleted successfully"
+                                    try {
+                                      const response = await fetch(
+                                        `http://localhost:3000/api/update-user/${user.id}`,
+                                        {
+                                          method: "DELETE",
+                                        }
                                       );
-                                      router.push(`/users/${params.role}`);
+                                      if (!response.ok) {
+                                        toast.error("Failed to delete user");
+                                      } else {
+                                        toast.success(
+                                          "User was deleted successfully"
+                                        );
+                                        router.push(`/users/${params.role}`);
+                                      }
+                                    } catch (error) {
+                                      console.log(error);
+                                    } finally {
+                                      setDeleting((prev) => !prev);
+                                      setDeletedUser("");
                                     }
-                                  } catch (error) {
-                                    console.log(error);
-                                  } finally {
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                                  onClick={(e) => {
                                     setDeleting((prev) => !prev);
-                                  }
-                                }}
-                              >
-                                Delete
-                              </button>
-                              <button
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                                onClick={(e) => {
-                                  setDeleting((prev) => !prev);
-                                }}
-                              >
-                                Cancel
-                              </button>
+                                    setDeletedUser("");
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        </>
                       ) : (
                         ""
                       )}
@@ -211,7 +218,7 @@ function TableList({ role }) {
           </table>
         </div>
       ) : (
-        <Loading />
+        ""
       )}
     </>
   );

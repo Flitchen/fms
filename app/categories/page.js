@@ -3,7 +3,7 @@ import AddBtn from "@/components/AddBtn";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaFolderClosed } from "react-icons/fa6";
-import Loading from "../loading";
+// import Loading from "../loading";
 
 export default function Page() {
   return (
@@ -56,7 +56,8 @@ function CategoryList() {
           ))}
         </div>
       ) : (
-        <Loading />
+        // <Loading />
+        ""
       )}
     </>
   );

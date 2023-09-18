@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaPeopleGroup } from "react-icons/fa6";
-import Loading from "../loading";
+// import Loading from "../loading";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -55,7 +55,8 @@ function RoleList() {
           ))}
         </div>
       ) : (
-        <Loading />
+        // <Loading />
+        ""
       )}
     </>
   );

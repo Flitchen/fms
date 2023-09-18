@@ -27,18 +27,23 @@ export default function EditUser({ id }) {
           cache: "no-store",
         }
       );
-      const userData = await response.json();
-      const { first_name, middle_name, last_name, address, phone_no } =
-        userData.userExist;
-      const { roleName } = userData;
-      setFormData({
-        fname: first_name,
-        mname: middle_name,
-        lname: last_name,
-        phone: phone_no,
-        address,
-        role: roleName,
-      });
+      if (!response.ok) {
+        toast.error("User does not exist!");
+        return;
+      } else {
+        const userData = await response.json();
+        const { first_name, middle_name, last_name, address, phone_no } =
+          userData.userExist;
+        const { roleName } = userData;
+        setFormData({
+          fname: first_name,
+          mname: middle_name,
+          lname: last_name,
+          phone: phone_no,
+          address,
+          role: roleName,
+        });
+      }
     }
     getUser();
     async function getRoles() {
@@ -173,7 +178,7 @@ export default function EditUser({ id }) {
               type="text"
               id="address"
               name="address"
-              placeholder="+2551234567"
+              placeholder="Eg 05 Mbeya"
               value={formData.address}
               onChange={(e) => {
                 setFormData({ ...formData, address: e.target.value });

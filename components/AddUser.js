@@ -155,7 +155,7 @@ export default function AddUser() {
               type="text"
               id="address"
               name="address"
-              placeholder="+2551234567"
+              placeholder="Eg 05 Mbeya"
               value={formData.address}
               onChange={(e) => {
                 setFormData({ ...formData, address: e.target.value });

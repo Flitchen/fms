@@ -143,7 +143,8 @@ function FileList() {
         </div>
       ) : (
         // <Loading />
-        <h1 className="text-4xl text-center m-10">No files found</h1>
+        // <h1 className="text-4xl text-center m-10">No files found</h1>
+        ""
       )}
     </>
   );

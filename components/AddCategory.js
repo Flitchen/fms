@@ -54,7 +54,7 @@ const AddCategory = () => {
           />
         </div>
         <div className="text-center mt-6">
-          <button className="py-3 w-64 text-xl text-white bg-gray-800 rounded-2xl">
+          <button className="py-3 w-64 text-xl text-white bg-sky-900 hover:bg-sky-700 rounded-2xl">
             Add Category
           </button>
         </div>

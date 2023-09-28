@@ -113,7 +113,7 @@ export default function AddFile() {
         <div className="text-center mt-6">
           <button
             type="submit"
-            className="py-3 w-64 text-xl text-white bg-gray-800 rounded-2xl"
+            className="py-3 w-64 text-xl text-white bg-sky-900 hover:bg-sky-700 rounded-2xl"
           >
             Add File
           </button>

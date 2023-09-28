@@ -221,7 +221,7 @@ export default function EditUser({ id }) {
         </div>
         <button
           type="submit"
-          className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-blue-600 focus:ring focus:ring-opacity-50"
+          className="bg-sky-900 hover:bg-sky-700 text-white px-4 py-2 rounded  focus:ring focus:ring-opacity-50"
         >
           Submit
         </button>

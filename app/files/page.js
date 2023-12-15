@@ -44,7 +44,7 @@ function FileList() {
   }, [files]);
   return (
     <>
-      <div className="flex justify-center relative mx-auto text-gray-600">
+      <div className="flex justify-center mx-auto text-gray-600">
         <input
           type="search"
           name="search"
